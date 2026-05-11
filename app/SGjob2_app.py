@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import duckdb  # Add this
+import os
 
 # --- PAGE CONFIG ---
 st.set_page_config(page_title="Recruitment Intelligence Pro", layout="wide")
@@ -18,7 +19,7 @@ engine_choice = st.sidebar.selectbox(
 @st.cache_data
 def load_data(selection):
     # Connect to your database
-    con = duckdb.connect('/home/taijl/6m-data-coaching-assignment-project/DSAI-assignment-project-1-Team_1/notebooks/SGJobData.duckdb', read_only=True)
+    con = duckdb.connect('notebooks/SGJobData.duckdb')
     
     # Map selection to the tables you saved in your notebook
     table_name = "potential_sg_jobs" if selection == "SQL Pipeline" else "potential_sg_jobs_pd"
