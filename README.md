@@ -1,20 +1,22 @@
 # DSAI-assignment-project-1-Team_1
 
 ## Project deliverables
-- Brief written report (Markdown/PDF) following Sections 1–4 above.
-- Working dashboard / app (deployed link or clear run instructions).
-- Code repo with:
+- **Brief written report** (Markdown/PDF) following Sections 1–4 above.
+- **Working dashboard/app** (provide a deployed link or clear local run instructions).
+- **Code repository** containing:
     + Data handling notebook(s) / scripts,
     + Dashboard/app code,
     + README with setup steps.
 
 ## Hardware Requirements
-- Use existing hardware which has being qualified for the course. 
-- Min 8 GB RAM. Recommend > 16 GB for optimal performance.
+- Use existing hardware qualified for the course.
+- **Minimum:** 8 GB RAM.
+- **Recommended:** > 16 GB RAM for optimal performance.
+
 
 > <span style="color:red">**[WARNING]**
 > 
-> <span style="color:red">**No discrimination between Intel or Mac, use at your own discretion**
+> <span style="color:red">**No discrimination between Intel or Mac; use at your own discretion**
 
 ## Software Requirements
 
@@ -28,37 +30,67 @@
 | DuckDB | Lightweight, in-process analytical database (no server needed) | All platforms | [Installation Guide](#https://duckdb.org/) |
 | Test Installation | Confirm if everything is working fine | All platforms | [Verification Guide](#verification-of-installation-mac-and-windows-users) |
 
-## Folder Setup
-- Project Repo: 
-    + Users should create a new repo using your desired github account.
-    + Include a README.md file during creation
-- Local Project Folder: 
-    + Similarly set up a project folder in local drive. In your local root folder, type: `mkdir DSAI-assignment-project-1-Team_1 `
-    + Navigate into the project folder that was created and create a local clone of the repo, type: `git clone 'https://github.com/Jayyr2040/DSAI-assignment-project-1-Team_1.git'`.
-    + Report file creation: type `touch Written_Report.md`
-    + Notebooks folder creation: type `mkdir notebooks`
-    + App folder creation: type `mkdir app` 
-    + README.md creation: cloned from repo
-    + Conda env: Type `conda env create -f environment.yml` to install all necessary libraries (Pandas, Plotly, Streamlit, DuckDB) in an isolated environment. (Note: this step is for when a environment.yml was created for you by initiator) 
-        * If you are initiating from scratch, type `conda env export --no-builds > environment.yml` at the end when you are about to wrap this project so that others can use your replicate your work later on.
-    + Updating of git repo: 
-        * type `git status` to check changes
-        * type `git add .` to stage all files in the project folder
-        * type `git commit -m "message"` to finalize the snapshot and commit all files
-        * type `git push` to upload GitHub
+## Folder Setup & Workflow
 
-- Jupyter Notebook (Main Engine):
-    + Create a new notebook. One way would be via VS Code. Press `Ctrl + Shift + P` and search and select Creat new Juypter Notebook.
-- Duckdb (Database):
-    + Should have installed based software requirements above
-    + At WSL terminal, type `conda install duckdb`
-- Streamlit (App):
-    + In the project folder, type `conda create -n job_analytics python=3.10 -y`.
-    + To activate the environment, type `conda activate job_analytics`. Similar to ddb or pds activation at WSL terminal.
-    + Create SGjob_data.py in the app folder that was created earlier.
-    + To run SGjob_data.py, type `streamlit run app/SGjob_data.py` at the root project folder. 
-        * .csv has to be the same folder as SGjob_data.py as it is referenced by app.py
-    + To type `conda list` to check if Streamlit, Pandas and Plotly libraries are in the list in case unsure.
-    + Links to browser will be shared if successful to launch app.
-    + `Ctrl + c` to abort at terminal.
+### 1. Repository Setup
+- **GitHub:** Create a new repository on GitHub (include a `README.md`).
+- **Local Folder:** Create your project directory and clone the repo:
+  ```bash
+  mkdir DSAI-assignment-project-1-Team_1
+  cd DSAI-assignment-project-1-Team_1
+  git clone https://github.com/Jayyr2040/DSAI-assignment-project-1-Team_1.git .
+  ```
+- **Directory Structure:**
+  ```bash
+  mkdir notebooks app
+  touch Written_Report.md
+  ```
+### 2. Environment Setup
+- **If an `environment.yml` exists:**
+  ```bash
+  conda env create -f environment.yml
+  ```
+- **To export your environment (Initiator only):**
+  ```bash
+  conda env export --no-builds > environment.yml
 
+### 3. Git Workflow
+```bash
+git status               # Check changes
+git add .                # Stage all changes
+git commit -m "message"  # Commit snapshot
+git push                 # Upload to GitHub
+```
+## Tools & Deployment
+
+### DuckDB (Database)
+- Install within your active conda environment:
+  ```bash
+  conda install duckdb
+  ```
+
+### Streamlit (App)
+#### Local Deployment
+1. **Create and Activate Environment:**
+   ```bash
+   conda create -n job_analytics python=3.10 -y
+   conda activate job_analytics
+   ```
+2. **Launch App:**
+   Ensure your `.csv` data is in the same folder as your script (`app/SGjob_data.py`).
+   ```bash
+   streamlit run app/SGjob_data.py
+   ```
+   *Note: Use `Ctrl + C` in the terminal to stop the app.*
+
+#### Cloud Deployment (Streamlit Community Cloud)
+1. **Ensure the following are pushed to GitHub:**
+   - `notebook.ipynb` (Main logic)
+   - `original_data.csv` (Raw source)
+   - `app.py` (Streamlit script)
+   - `database.csv` (Referenced data)
+   - `requirements.txt` (List of dependencies, e.g., `pandas`, `streamlit`, `plotly`)
+2. **Deploy:**
+   - Log in to [Streamlit.io](https://streamlit.io/) and link your GitHub.
+   - Select "Create App" and point to your `app.py` file.
+ 

@@ -7,43 +7,72 @@ Design a simple data product (dashboard or web app) using a real-world CSV of Si
 
 ---
 
-## 1. Business Case (2–3 bullets)
+## 1. Business Case
 
-Briefly describe:
+### 1.1 Summary
 
-- Business scenario (e.g. talent acquisition, policy analyst, career coach).
-- **Objective**: What decision/problem are you helping to address?
-- Target users and value: How will this dashboard/app help them?
++ Business Scenario: Recruitment Intelligence. Recruitment firms need to move from simple job matching to become strategic consultants for their clients
 
-> Example: “Help a talent acquisition team identify which roles and skills are most in demand so they can prioritise hiring and sourcing.”
++ Objective: To identify potential leads by analyzing salary premiums and hiring volumes across sectors. Helps the recruitment agency to decide where to deploy their headhunters for the highest potential commission (ROI).
 
-# ###############################################################################
-  • Business Scenario: Recruitment Intelligence. Recruitment firms need to move from simple job matching to become strategic consultants for their clients
++ Data variables to consider:
+   - status_jobStatus (OPEN OR CLOSED) – Potential hiring volume
+   - average_salary – salary premium and potential revenue If copmmission is a % of salary that was succesfully matched
+   - positionLevels – Useful information to tier recruitment company’s resources according to their manpower
 
-    • Objective: To identify potential leads by analyzing salary premiums and hiring volumes across sectors. Helps the recruitment agency to decide where to deploy their headhunters for the highest potential commission (ROI).
++ Target Users and Value: Recruitment Consultants and Business Development Teams. This dashboard provides them with salary benchmarks and identifies companies with high volumes of "Open" roles, allowing them to pitch their services to the right clients with data-backed evidence.
 
-    • Data variables to consider:
-        ◦ status_jobStatus (OPEN OR CLOSED) – Potential hiring volume
-        ◦ average_salary – salary premium and potential revenue If copmmission is a % of salary that was succesfully matched
-        ◦ positionLevels – Useful information to tier recruitment company’s resources according to their manpower
-
-    • Target Users and Value: Recruitment Consultants and Business Development Teams. This dashboard provides them with salary benchmarks and identifies companies with high volumes of "Open" roles, allowing them to pitch their services to the right clients with data-backed evidence.
-# ###############################################################################
----
-
-## 2. Data Handling & Process (5–8 bullets)
+## 2. Data Handling & Process
 
 Summarise your end-to-end process:
 
-- Tools used (e.g. Python + Pandas / DuckDB / SQL).
-- How you loaded the CSV (~1M+ rows).
-- Key cleaning steps (missing values, standardising categories, parsing dates, handling salary formats).
-- Important feature engineering (e.g. seniority, salary bands, demand metrics, skill tags).
-- EDA highlights: key patterns or anomalies you discovered that shaped your dashboard design.
++ Tools used 
+   - Jupyter Notebook, Python (Pandas), DbGate, DuckDB (SQL), and Streamlit.
 
-You do not need to show all code, but the logic and key decisions should be clear.
++ Data Loading (1M+ rows)
+   - Utilized DuckDB via DbGate for high-speed local storage and queried the data directly into Pandas for analysis, ensuring memory efficiency.
 
-# ###############################################################################
++ Key cleaning steps 
+   - Handled missing values and standardized job categories.
+
++ Important feature engineering (e.g. seniority, salary bands, demand metrics, skill tags).
+   - Commission Potential: Created a potential_revenue metric by multiplying average_salary by a standard commission rate (e.g., 20%)
+   - Seniority Mapping: Grouped various positionLevels into broader tiers (Junior, Mid-Level, Senior, C-Suite) for cleaner filtering
+
++ EDA highlights: key patterns or anomalies you discovered that shaped your dashboard design.
+   - Volume vs. Value: Discovered that while "Admin" has the most openings, "FinTech" offers significantly higher salary premiums, indicating a higher ROI for headhunter focus.
+
+## 3. Dashboard / App 
+
+### 3.1 Preview of App
+
+Business Overview - Target Segment
+![alt text](image.png)
+
+Sector Overview - Resource allocation
+![alt text](image-1.png)
+
+Available Roles Detailed View
+![alt text](image-2.png)
+
++ Type of solution: Interactive Streamlit Web Application.
++ Main views:
+  - Overview Metrics: Tracking top client companies and potential revenue by talent tier.
+  - Drill-down View: Granular analysis by company name, role type, and specific commission estimates.
++ Interactivity: Integrated sidebar filters, dynamic sorting, and descriptive tooltips.
+
+## 4. Challenges & learnings
+
++ Technical/analytical challenges
+   - The categories and metadata_na columns contain nested string data (JSON-like formats). I had to use Regex and string splitting to extract clean category names (e.g., "Admin / Secretarial") for the dashboard to function.
+
++ Learnings
+   - SQL Power in Python: Offloading heavy aggregations to DuckDB is significantly faster than standard Python loops or Pandas groupby operations for large datasets.
+
++ Possible next steps
+   - Skill Gap Analysis: Extract skill_tags to show consultants exactly which certifications are trending, 
+   allowing them to advise candidates more effectively.
+<!-- 
 1. Using DbGate for Initial Exploration
 DbGate is a database management tool that can connect to DuckDB. 
 It is best used for quick, visual "sanity checks" before you write a single line of code.Why use it first? 
@@ -198,3 +227,5 @@ Use code with caution.
 Recommendation for your Report
 If you add this, mention it in Section 4: Challenges as: "Integrated a time-series analysis to track recruitment velocity. This required pre-processing inconsistent date strings into normalized datetime objects to provide headhunters with a temporal view of hiring demand."Would you like the specific code to format the x-axis so it looks clean even with 12+ months of data?
 # ###################################################################################
+
+-->
