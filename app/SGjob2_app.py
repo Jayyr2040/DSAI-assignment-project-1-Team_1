@@ -159,27 +159,49 @@ st.subheader("🎯 Sector Intelligence: Where the Money Is")
 
 # 1. Group and process the data
 # Use 'clean_category' (the one you extracted in SQL)
-sector_data = display_df.groupby('clean_category')['est_commission'].sum().sort_values(ascending=False).head(10).reset_index()
+# sector_data = display_df.groupby('clean_category')['est_commission'].sum().sort_values(ascending=False).head(10).reset_index()
+# Create the data with BOTH commission and volume
+sector_data = display_df.groupby('clean_category').agg(
+    est_commission=('est_commission', 'sum'),
+    job_volume=('clean_category', 'count')  # This creates the missing column
+).sort_values('est_commission', ascending=False).head(10).reset_index()
 
 # 2. Create a horizontal bar chart for high readability
-fig_sector = px.bar(
-    sector_data, 
-    x='est_commission', 
-    y='clean_category', 
-    orientation='h',
-    color='est_commission',
-    color_continuous_scale='GnBu', # Professional Green-Blue scale
-    text_auto='.2s',
-    labels={'est_commission': 'Potential Revenue ($)', 'clean_category': 'Industry Sector'}
+fig_sector = px.scatter(
+    sector_data,
+    x='est_commission',
+    y='clean_category',
+    size='job_volume',      # Size represents volume
+    color='est_commission', # Color represents revenue
+    color_continuous_scale='GnBu',
+    title='Sector Focus Stats: Potential Revenue ($) vs. Hiring Volume',
+    labels={'clean_category': 'Sector', 'est_commission': 'Potential Revenue ($)', 'job_volume': 'Hiring Volume'}
 )
 
 # 3. Polish the layout
 fig_sector.update_layout(
-    font=dict(color="black"), # Makes labels dark and readable
-    yaxis={'categoryorder':'total ascending'}, # Puts highest revenue at the top
-    showlegend=False,
-    height=500, 
-    xaxis_tickformat='$,.0f'
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    font=dict(color="black", size=11), # Slightly smaller font looks cleaner
+    yaxis=dict(
+        categoryorder='total ascending',
+        showgrid=True, 
+        gridcolor='#f0f0f0', # Very light "ghost" grey
+        gridwidth=1
+    ),
+    xaxis=dict(
+        showgrid=True, 
+        gridcolor='#f0f0f0', # Very light "ghost" grey
+        gridwidth=1,
+        tickformat='$,.2s'   # Shortens labels like $50,000,000 to $50M
+    ),
+    height=500,
+    margin=dict(l=20, r=20, t=40, b=20) # Tightens the white space
+)
+
+# 4. Make bubbles easier to see (Keep this as is)
+fig_sector.update_traces(
+    marker=dict(sizemode='area', sizeref=2.*max(sector_data['job_volume'])/(40.**2))
 )
 
 st.plotly_chart(fig_sector, use_container_width=True)

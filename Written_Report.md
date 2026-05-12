@@ -50,7 +50,7 @@ Business Overview - Target Segment
 ![alt text](image.png)
 
 Sector Overview - Resource allocation
-![alt text](image-1.png)
+![alt text](image-4.png)
 
 Available Roles Detailed View
 ![alt text](image-2.png)
